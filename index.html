@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+    <style>
+        /* google font: Noto Sans KR */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+        :root {
+            --color-signature: #3585c1;
+            --color-carrot-market: #ff8a3d;
+            --color-joonggonara: #e8344e;
+            --color-hello-market: #0484f6;
+
+            --white-normal: #fafafa;
+            --white-dark: #f3f3f3;
+
+            --purple-normal: #a238d9;
+            --purple-highlight: #C338FA;
+
+            --black-normal: #18191A;
+
+            --grey-normal: #242526;
+            --grey-light: #3a3b3c;
+            --grey-lighter: #ACAFB3;
+
+            --text-smaller: 0.8rem;
+            --text-small: 1.1rem;
+            --text-normal: 1.25rem;
+            --text-littlebig: 2rem;
+            --text-big: 3rem;
+            --text-ultrabig: 5rem;
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: content-box;
+        }
+
+        body {
+            font-size: 10px;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .wrap {
+            width: 800px;
+            margin: 300px auto auto;
+            text-align: center;
+        }
+
+        #title > h1 {
+            font-size: var(--text-ultrabig);
+            color: var(--black-normal);
+            text-shadow: var(--grey-lighter) 2px 2px;
+        }
+
+        #title > h2 {
+            font-weight: lighter;
+            font-size: var(--text-normal);
+            color: var(--black-normal);
+        }
+
+        #shop-toggle-box {
+            margin-top: 20px;
+
+            text-align: left;
+        }
+
+        /* checkbox hover, active background */
+        /* https://stackoverflow.com/questions/30100978/how-to-make-a-check-button-hidden-checkbox-with-label-as-a-button-css-only */
+        /* Basic Style */
+        input.checkbox-button {
+            display: none;
+        }
+
+        input.checkbox-button + label {
+            padding: 3px 3px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* 전체 선택 */
+        #shop-toggle-all:not(:checked) + label {
+            border: var(--color-signature) 1px solid;
+            background-color: transparent;
+            color: var(--color-signature);
+        }
+
+        #shop-toggle-all:not(:checked) + label:hover {
+            border: transparent 1px solid;
+            background-color: var(--color-signature);
+            color: white;
+        }
+
+        #shop-toggle-all + label:active,
+        #shop-toggle-all:checked + label {
+            border: transparent 1px solid;
+            background-color: var(--color-signature);
+            color: white;
+        }
+
+        /* 당근마켓 */
+        #shop-toggle-carrot-market:not(:checked) + label {
+            border: var(--color-carrot-market) 1px solid;
+            background-color: transparent;
+            color: var(--color-carrot-market);
+        }
+
+        #shop-toggle-carrot-market:not(:checked) + label:hover {
+            border: transparent 1px solid;
+            background-color: var(--color-carrot-market);
+            color: white;
+        }
+
+        #shop-toggle-carrot-market + label:active,
+        #shop-toggle-carrot-market:checked + label {
+            border: transparent 1px solid;
+            background-color: var(--color-carrot-market);
+            color: white;
+        }
+
+        /* 중고나라 */
+        #shop-toggle-joonggonara:not(:checked) + label {
+            border: var(--color-joonggonara) 1px solid;
+            background-color: transparent;
+            color: var(--color-joonggonara);
+        }
+
+        #shop-toggle-joonggonara:not(:checked) + label:hover {
+            border: transparent 1px solid;
+            background-color: var(--color-joonggonara);
+            color: white;
+        }
+
+        #shop-toggle-joonggonara + label:active,
+        #shop-toggle-joonggonara:checked + label {
+            border: transparent 1px solid;
+            background-color: var(--color-joonggonara);
+            color: white;
+        }
+
+        /* 헬로 마켓 */
+        #shop-toggle-hello-market:not(:checked) + label {
+            border: var(--color-hello-market) 1px solid;
+            background-color: transparent;
+            color: var(--color-hello-market);
+        }
+
+        #shop-toggle-hello-market:not(:checked) + label:hover {
+            border: transparent 1px solid;
+            background-color: var(--color-hello-market);
+            color: white;
+        }
+
+        #shop-toggle-hello-market + label:active,
+        #shop-toggle-hello-market:checked + label {
+            border: transparent 1px solid;
+            background-color: var(--color-hello-market);
+            color: white;
+        }
+
+        /* Search box */
+        /* https://stackoverflow.com/questions/15314407/how-to-add-button-inside-input */
+        #search-box {
+            margin-top: 15px;
+
+            height: 30px;
+            padding: 5px 20px;
+            border: 1px solid var(--color-signature);
+            border-radius: 20px;
+
+            /* This bit sets up the horizontal layout */
+            display: flex;
+            flex-direction: row;
+        }
+
+        #search-box > input {
+            /* Tell the input to use all the available space */
+            flex-grow: 2;
+            /* And hide the input's outline, so the form looks like the outline */
+            border: none;
+        }
+
+        #search-box > input:focus {
+            /* removing the input focus blue box. Put this on the form if you like. */
+            outline: none;
+        }
+
+        #search-box > button {
+            width: 30px;
+            height: 30px;
+            vertical-align: center;
+            background-color: var(--color-signature);
+            border: transparent;
+            border-radius: 15px;
+            color: white;
+        }
+
+    </style>
+
+    <script>
+
+        // // CSS를 바꾸는 함수로 묶어서 바꾸어보려했는데 잘 안된다..
+        // initializeShopToggleButtonCss('#shop-toggle-hello-market', 'black', 'black');
+        //
+        // function initializeShopToggleButtonCss(id, hoverColor, checkedColor) {
+        //     $(id + ':not(:checked) + label:hover').css('background-color', hoverColor);
+        //     $(id + ' + label:active').css('background-color', checkedColor);
+        //     $(id + ':checked + label').css('background-color', checkedColor);
+        // }
+
+        function onClickSearch() {
+
+        }
+    </script>
+</head>
+<body>
+<div class="wrap">
+
+    <div id="title">
+        <h1>항해#</h1>
+        <h2>망망대해 속 숨겨진 꿀-템을 찾아</h2>
+        <h2>당신의 항해를 시작하세요</h2>
+    </div>
+
+    <!-- 샵 토글 -->
+    <div id="shop-toggle-box">
+        <span>
+            <input type="checkbox" id='shop-toggle-all' class='checkbox-button'/>
+            <label for='shop-toggle-all'>모두 선택</label>
+        </span>
+        <span>
+            <input type="checkbox" id="shop-toggle-carrot-market" class='checkbox-button'/>
+            <label for='shop-toggle-carrot-market'>당근마켓</label>
+        </span>
+        <span>
+            <input type="checkbox" id="shop-toggle-joonggonara" class='checkbox-button'/>
+            <label for='shop-toggle-joonggonara'>중고나라</label>
+        </span>
+        <span>
+            <input type="checkbox" id="shop-toggle-hello-market" class='checkbox-button'/>
+            <label for='shop-toggle-hello-market'>헬로마켓</label>
+        </span>
+
+    </div>
+    <div id="search-box">
+        <input id="search-keyword" placeholder="검색어를 입력하세요.">
+        <button id="search-button" class="fa fa-search" onclick="onClickSearch()" type="button"></button>
+    </div>
+
+</div>
+</body>
+</html>
