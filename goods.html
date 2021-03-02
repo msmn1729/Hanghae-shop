@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+    <style>
+        /* google font: Noto Sans KR */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+        :root {
+            --color-signature: #3585c1;
+            --color-carrot-market: #ff8a3d;
+            --color-joonggonara: #e8344e;
+            --color-hello-market: #0484f6;
+
+            --white-normal: #fafafa;
+            --white-dark: #f3f3f3;
+
+            --purple-normal: #a238d9;
+            --purple-highlight: #C338FA;
+
+            --black-normal: #18191A;
+
+            --grey-normal: #242526;
+            --grey-light: #3a3b3c;
+            --grey-lighter: #ACAFB3;
+
+            --text-smaller: 0.8rem;
+            --text-small: 1.1rem;
+            --text-normal: 1.25rem;
+            --text-littlebig: 2rem;
+            --text-big: 3rem;
+            --text-ultrabig: 5rem;
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: content-box;
+        }
+
+        body {
+            font-size: 10px;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .wrap {
+            width: 800px;
+            margin: 0px auto;
+            text-align: center;
+        }
+
+        #header {
+            text-align: left;
+        }
+
+        #header > h1, #header > h2 {
+            display: inline-block;
+            color: var(--black-normal);
+        }
+
+        #header > h1 {
+            font-weight: normal;
+            font-size: var(--text-littlebig);
+        }
+
+        #header > h2 {
+            font-weight: lighter;
+            font-size: var(--text-normal);
+        }
+
+        #back-button {
+            background-color: transparent;
+            display: inline-block;
+            border: none;
+            padding-top: 0px;
+            padding-left: 5px;
+            padding-right: 10px;
+            color: var(--black-normal);
+        }
+
+        #shop-toggle-box {
+            margin-top: 10px;
+
+            text-align: left;
+        }
+
+        /* checkbox hover, active background */
+        /* https://stackoverflow.com/questions/30100978/how-to-make-a-check-button-hidden-checkbox-with-label-as-a-button-css-only */
+        /* Basic Style */
+        input.checkbox-button {
+            display: none;
+        }
+
+        input.checkbox-button + label {
+            padding: 3px 3px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* 전체 선택 */
+        #shop-toggle-all:not(:checked) + label {
+            border: var(--color-signature) 1px solid;
+            background-color: transparent;
+            color: var(--color-signature);
+        }
+
+        #shop-toggle-all:not(:checked) + label:hover {
+            border: transparent 1px solid;
+            background-color: var(--color-signature);
+            color: white;
+        }
+
+        #shop-toggle-all + label:active,
+        #shop-toggle-all:checked + label {
+            border: transparent 1px solid;
+            background-color: var(--color-signature);
+            color: white;
+        }
+
+        /* 당근마켓 */
+        #shop-toggle-carrot-market:not(:checked) + label {
+            border: var(--color-carrot-market) 1px solid;
+            background-color: transparent;
+            color: var(--color-carrot-market);
+        }
+
+        #shop-toggle-carrot-market:not(:checked) + label:hover {
+            border: transparent 1px solid;
+            background-color: var(--color-carrot-market);
+            color: white;
+        }
+
+        #shop-toggle-carrot-market + label:active,
+        #shop-toggle-carrot-market:checked + label {
+            border: transparent 1px solid;
+            background-color: var(--color-carrot-market);
+            color: white;
+        }
+
+        /* 중고나라 */
+        #shop-toggle-joonggonara:not(:checked) + label {
+            border: var(--color-joonggonara) 1px solid;
+            background-color: transparent;
+            color: var(--color-joonggonara);
+        }
+
+        #shop-toggle-joonggonara:not(:checked) + label:hover {
+            border: transparent 1px solid;
+            background-color: var(--color-joonggonara);
+            color: white;
+        }
+
+        #shop-toggle-joonggonara + label:active,
+        #shop-toggle-joonggonara:checked + label {
+            border: transparent 1px solid;
+            background-color: var(--color-joonggonara);
+            color: white;
+        }
+
+        /* 헬로 마켓 */
+        #shop-toggle-hello-market:not(:checked) + label {
+            border: var(--color-hello-market) 1px solid;
+            background-color: transparent;
+            color: var(--color-hello-market);
+        }
+
+        #shop-toggle-hello-market:not(:checked) + label:hover {
+            border: transparent 1px solid;
+            background-color: var(--color-hello-market);
+            color: white;
+        }
+
+        #shop-toggle-hello-market + label:active,
+        #shop-toggle-hello-market:checked + label {
+            border: transparent 1px solid;
+            background-color: var(--color-hello-market);
+            color: white;
+        }
+
+        /* Search box */
+        /* https://stackoverflow.com/questions/15314407/how-to-add-button-inside-input */
+        #search-box {
+            margin-top: 15px;
+
+            height: 30px;
+            padding: 5px 20px;
+            border: 1px solid var(--color-signature);
+            border-radius: 20px;
+
+            /* This bit sets up the horizontal layout */
+            display: flex;
+            flex-direction: row;
+        }
+
+        #search-box > input {
+            /* Tell the input to use all the available space */
+            flex-grow: 2;
+            /* And hide the input's outline, so the form looks like the outline */
+            border: none;
+        }
+
+        #search-box > input:focus {
+            /* removing the input focus blue box. Put this on the form if you like. */
+            outline: none;
+        }
+
+        #search-box > button {
+            width: 30px;
+            height: 30px;
+            vertical-align: center;
+            background-color: var(--color-signature);
+            border: transparent;
+            border-radius: 15px;
+            color: white;
+        }
+
+        /* goods */
+        #goods-box {
+            /*background-color: aqua;*/
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .goods-card {
+            /*background-color: var(--white-dark);*/
+            /*border-radius: 3px;*/
+            display: inline-block;
+            width: 192px;
+            box-sizing: border-box;
+            padding: 10px 10px 10px 10px;
+            color: var(--white-normal);
+        }
+
+        .goods-card-img {
+
+            /* 이미지의 크기가 표시하려는 영역의 크기와 일치하지 않아도 이미지의 전체 영역이 보여질 수 있도록 합니다. */
+            background-size: cover;
+            background-position: center;
+
+            border-radius: 3px;
+
+            /* 이미지의 비율이 1:1이 아니더라도 stretch되지 않도록 막습니다. */
+            width: 172px;
+            min-height: 172px;
+            object-fit: cover;
+        }
+
+        .goods-card-name {
+            /*background-color: cadetblue;*/
+            margin: 10px 0px 0px 0px;
+            font-weight: bold;
+            font-size: var(--text-smaller);
+            color: var(--black-normal);
+        }
+
+        .goods-card-price {
+            /*background-color: lightsalmon;*/
+            margin: 0px 0px 0px 0px;
+            font-weight: lighter;
+            font-size: var(--text-smaller);
+            color: var(--color-signature);
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <div id="header">
+        <button id="back-button" class="fas fa-angle-left fa-3x" onclick="onClickBack()" type="button"></button>
+        <h1>'닌텐도'</h1>
+        <h2> 로 찾은 물건들이예요</h2>
+    </div>
+
+    <!-- 샵 토글 -->
+    <div id="shop-toggle-box">
+        <span>
+            <input type="checkbox" id='shop-toggle-all' class='checkbox-button'/>
+            <label for='shop-toggle-all'>모두 선택</label>
+        </span>
+        <span>
+            <input type="checkbox" id="shop-toggle-carrot-market" class='checkbox-button'/>
+            <label for='shop-toggle-carrot-market'>당근마켓</label>
+        </span>
+        <span>
+            <input type="checkbox" id="shop-toggle-joonggonara" class='checkbox-button'/>
+            <label for='shop-toggle-joonggonara'>중고나라</label>
+        </span>
+        <span>
+            <input type="checkbox" id="shop-toggle-hello-market" class='checkbox-button'/>
+            <label for='shop-toggle-hello-market'>헬로마켓</label>
+        </span>
+
+    </div>
+    <div id="search-box">
+        <input id="search-keyword" placeholder="검색어를 입력하세요.">
+        <button id="search-button" class="fa fa-search" onclick="onClickSearch()" type="button"></button>
+    </div>
+
+    <div id="goods-box">
+
+        <!-- goods card -->
+        <div class="goods-card">
+            <img class="goods-card-img"
+                 src="https://t1.daumcdn.net/liveboard/holapet/0e5f90af436e4c218343073164a5f657.JPG"
+                 alt="Card image cap">
+            <div class="goods-card-body">
+                <p class="goods-card-name">여기에 제목이 들어갑니다.</p>
+                <p class="goods-card-price">130,000원</p>
+            </div>
+        </div>
+        <!-- end goods card -->
+
+        <!-- goods card -->
+        <div class="goods-card">
+            <img class="goods-card-img"
+                 src="https://t1.daumcdn.net/liveboard/holapet/0e5f90af436e4c218343073164a5f657.JPG"
+                 alt="Card image cap">
+            <div class="goods-card-body">
+                <p class="goods-card-name">여기에 제목이 들어갑니다.</p>
+                <p class="goods-card-price">130,000원</p>
+            </div>
+        </div>
+        <!-- end goods card -->
+
+        <!-- goods card -->
+        <div class="goods-card">
+            <img class="goods-card-img"
+                 src="https://t1.daumcdn.net/liveboard/holapet/0e5f90af436e4c218343073164a5f657.JPG"
+                 alt="Card image cap">
+            <div class="goods-card-body">
+                <p class="goods-card-name">여기에 제목이 들어갑니다.</p>
+                <p class="goods-card-price">130,000원</p>
+            </div>
+        </div>
+        <!-- end goods card -->
+
+        <!-- goods card -->
+        <div class="goods-card">
+            <img class="goods-card-img"
+                 src="https://t1.daumcdn.net/liveboard/holapet/0e5f90af436e4c218343073164a5f657.JPG"
+                 alt="Card image cap">
+            <div class="goods-card-body">
+                <p class="goods-card-name">여기에 제목이 들어갑니다.</p>
+                <p class="goods-card-price">130,000원</p>
+            </div>
+        </div>
+        <!-- end goods card -->
+
+        <!-- goods card -->
+        <div class="goods-card">
+            <div class="goods-card-img-box">
+                <img class="goods-card-img"
+                     src="https://t1.daumcdn.net/liveboard/holapet/0e5f90af436e4c218343073164a5f657.JPG"
+                     alt="Card image cap">
+                <div class="top-left" style="color: black">당근</div>
+            </div>
+            <div class="goods-card-body">
+                <p class="goods-card-name">여기에 제목이 들어갑니다.</p>
+                <p class="goods-card-price">130,000원</p>
+            </div>
+        </div>
+        <!-- end goods card -->
+    </div>
+</div>
+</body>
+</html>
