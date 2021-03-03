@@ -21,8 +21,8 @@ def login():
 
 
 @app.route('/user/register', methods=['GET'])
-def userRegisterGet():
-    return render_template('modify_member_infomation.html')
+def userRegisterPage():
+    return render_template('sign_up.html')
 
 
 @app.route('/user/register', methods=['POST'])
