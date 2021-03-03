@@ -15,6 +15,35 @@
             z-index: 2;
         }
     </style>
+
+    <script>
+        function onClickSubmit() {
+            let id = $('#id').val();
+            let password = $('#password').val();
+            let email = $('#email').val();
+
+            if (!id || !password || !email) {
+                alert('모든 항목을 입력해주세요.');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/user/register",
+                data: {id_give: id, password_give: password, email_give: email},
+                success: function (response) {
+
+                    let received_message = response['message'];
+
+                    alert(received_message);
+
+                    if (response['success'] == true)
+                        window.location.href = '/login'
+
+                }
+            })
+        }
+    </script>
 </head>
 
 <body>
@@ -36,13 +65,13 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="아이디" type="text">
+                <input id="id" class="form-control" placeholder="아이디" type="text">
             </div>
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="비밀번호" type="password">
+                <input id="password" class="form-control" placeholder="비밀번호" type="password">
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
@@ -54,10 +83,10 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="이메일" type="email">
+                <input id="email" name="" class="form-control" placeholder="이메일" type="email">
             </div> <!-- form-group// -->
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"> 회원가입!</button>
+                <button onclick="onClickSubmit()" type="submit" class="btn btn-primary btn-block"> 회원가입!</button>
             </div> <!-- form-group// -->
             <p class="text-center">이미 회원이신가요? <a href="">로그인하기</a></p>
         </form>
