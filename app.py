@@ -102,7 +102,7 @@ def userRegisterPost():
 def getGoodsSearch():
     received_keywords = request.args.get("keywords");
     print('searched keywords: ', received_keywords);
-    return render_template('goods.html', keyword=received_keywords);
+    return render_template('goods.html', keywords=received_keywords);
 
 
 if __name__ == '__main__':
