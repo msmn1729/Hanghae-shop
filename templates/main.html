@@ -48,8 +48,21 @@
 
         .wrap {
             width: 800px;
-            margin: 300px auto auto;
+            margin: 0px auto;
             text-align: center;
+        }
+
+        #header {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        #header > button {
+            background-color: transparent;
+            display: inline-block;
+            border: none;
+            color: var(--black-normal);
+            font-size: var(--text-small);
         }
 
         #title > h1 {
@@ -221,6 +234,10 @@
 </head>
 <body>
 <div class="wrap">
+
+    <div id="header">
+        <button id="login-button" onclick="onClickLogin()" type="button">로그인 / 회원가입</button>
+    </div>
 
     <div id="title">
         <h1>항해#</h1>
