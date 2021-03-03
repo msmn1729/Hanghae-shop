@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인페이지</title>
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <style>
@@ -45,6 +49,32 @@
         }
 
     </style>
+
+    <script>
+        function onClickLogin() {
+            let id = $('#id').val();
+            let password = $('#password').val();
+
+            if (!id || !password) {
+                alert('올바른 아이디와 비밀번호를 입력해주세요.');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/user/login",
+                data: {id_give: id, password_give: password},
+                success: function (response) {
+
+                    let received_message = response['message'];
+
+                    alert(received_message);
+
+                }
+            })
+
+        }
+    </script>
 </head>
 
 <body>
@@ -54,11 +84,11 @@
     </div>
 
     <div class="input-box">
-        <input type="text" style="width: 50%" placeholder="아이디"/>
-        <input type="text" style="margin: 3% auto 3%; width: 50%" placeholder="비밀번호"/>
+        <input id="id" type="text" style="width: 50%" placeholder="아이디"/>
+        <input id="password" type="text" style="margin: 3% auto 3%; width: 50%" placeholder="비밀번호"/>
     </div>
 
-    <button class="mybtn"> 로그인</button>
+    <button class="mybtn" onclick="onClickLogin()"> 로그인</button>
     <button class="mybtn" onclick="window.location.href='/user/register'"> 회원가입</button>
 </div>
 </body>

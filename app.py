@@ -20,6 +20,17 @@ def userLoginPage():
     return render_template('login.html')
 
 
+@app.route('/user/login', methods=['POST'])
+def userLogin():
+    received_id = request.form['id_give']
+    received_password = request.form['password_give']
+
+    hashed_password = hashlib.sha256(received_password.encode('utf-8')).hexdigest()
+
+    print(received_id, received_password, hashed_password)
+    return jsonify({'success': True, 'message': '로그인에 성공하였습니다.'})
+
+
 @app.route('/user/register', methods=['GET'])
 def userRegisterPage():
     return render_template('sign_up.html')
