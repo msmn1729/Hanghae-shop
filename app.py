@@ -5,6 +5,7 @@ import jwt
 import datetime
 
 SECRET_KEY = 'Pl^EqCCvnI(d3xDBFofHyxHxLtuBWs';
+TOKEN_NAME = 'login_token';
 
 app = Flask(__name__)
 
@@ -14,6 +15,8 @@ db = client.hanghaeshop
 
 @app.route('/', methods=['GET'])
 def home():
+    received_token = request.cookies.get(TOKEN_NAME);
+
     return render_template('main.html')
 
 
@@ -45,7 +48,7 @@ def userLogin():
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
         # token을 줍니다.
-        return jsonify({'success': True, 'message': '로그인에 성공하였습니다.', 'token': token})
+        return jsonify({'success': True, 'message': '로그인에 성공하였습니다.', TOKEN_NAME: token})
 
     return jsonify({'success': False, 'message': '아이디/비밀번호가 일치하지 않습니다.'})
 

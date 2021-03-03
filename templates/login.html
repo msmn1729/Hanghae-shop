@@ -8,6 +8,7 @@
 
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
@@ -51,6 +52,9 @@
     </style>
 
     <script>
+
+        const TOKEN_NAME = 'login_token';
+
         function onClickLogin() {
             let id = $('#id').val();
             let password = $('#password').val();
@@ -69,6 +73,12 @@
                     let received_message = response['message'];
 
                     alert(received_message);
+
+                    if (response['success']) {
+                        $.cookie(TOKEN_NAME, response[TOKEN_NAME], {path: '/'});
+                        console.log(document.cookie);
+                        window.location.href = '/';
+                    }
 
                 }
             })
