@@ -222,6 +222,29 @@
 
     <script>
 
+        function onClickShopToggle(name) {
+
+            let shopToggle_all = $('#shop-toggle-all');
+            let shopToggle_carrotMarket = $('#shop-toggle-carrot-market');
+            let shopToggle_joonggonara = $('#shop-toggle-joonggonara');
+            let shopToggle_helloMarket = $('#shop-toggle-hello-market');
+
+            if (name == 'all') {
+                let isChecked = shopToggle_all.prop('checked');
+                shopToggle_carrotMarket.prop('checked', isChecked);
+                shopToggle_joonggonara.prop('checked', isChecked);
+                shopToggle_helloMarket.prop('checked', isChecked);
+            } else {
+                let isCarrotMarketChecked = shopToggle_carrotMarket.prop('checked');
+                let isJoonggonaraChecked = shopToggle_joonggonara.prop('checked');
+                let isHelloMarketChecked = shopToggle_helloMarket.prop('checked');
+
+                let isAllItemChecked = isCarrotMarketChecked && isJoonggonaraChecked && isHelloMarketChecked;
+                shopToggle_all.prop('checked', isAllItemChecked);
+
+                console.log(isCarrotMarketChecked, isJoonggonaraChecked, isHelloMarketChecked);
+            }
+        }
 
         function onClickSearch() {
 
@@ -244,19 +267,23 @@
     <!-- 샵 토글 -->
     <div id="shop-toggle-box">
         <span>
-            <input type="checkbox" id='shop-toggle-all' class='checkbox-button'/>
+            <input type="checkbox" id='shop-toggle-all' class='checkbox-button'
+                   onclick="onClickShopToggle('all')"/>
             <label for='shop-toggle-all'>모두 선택</label>
         </span>
         <span>
-            <input type="checkbox" id="shop-toggle-carrot-market" class='checkbox-button'/>
+            <input type="checkbox" id="shop-toggle-carrot-market" class='checkbox-button'
+                   onclick="onClickShopToggle('carrot-market')"/>
             <label for='shop-toggle-carrot-market'>당근마켓</label>
         </span>
         <span>
-            <input type="checkbox" id="shop-toggle-joonggonara" class='checkbox-button'/>
+            <input type="checkbox" id="shop-toggle-joonggonara" class='checkbox-button'
+                   onclick="onClickShopToggle('joonggonara')"/>
             <label for='shop-toggle-joonggonara'>중고나라</label>
         </span>
         <span>
-            <input type="checkbox" id="shop-toggle-hello-market" class='checkbox-button'/>
+            <input type="checkbox" id="shop-toggle-hello-market" class='checkbox-button'
+                   onclick="onClickShopToggle('hello-market')"/>
             <label for='shop-toggle-hello-market'>헬로마켓</label>
         </span>
 
