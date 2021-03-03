@@ -13,6 +13,27 @@ client = MongoClient('localhost', 27017)
 db = client.hanghaeshop
 
 
+def tryGetUserInfoWithToken(received_token: str):
+    try:
+        # token을 시크릿키로 디코딩합니다.
+        # 보실 수 있도록 payload를 print 해두었습니다. 우리가 로그인 시 넣은 그 payload와 같은 것이 나옵니다.
+        payload = jwt.decode(received_token, SECRET_KEY, algorithms=['HS256'])
+        # print('token: ', received_token)
+        # print('payload: ', payload)
+
+        id = payload['id']
+
+        userInfo = db.user.find_one({'id': id}, {'_id': 0})
+        return {'success': True, 'message': '사용자 정보를 성공적으로 불러왔습니다.', 'userInfo': userInfo}
+
+    # 토큰 유효기간 만료
+    except jwt.ExpiredSignatureError:
+        return {'success': False, 'message': '로그인 시간이 만료되었습니다.'}
+    # 토큰 디코딩 에러
+    except jwt.exceptions.DecodeError:
+        return {'success': False, 'message': '로그인 정보가 존재하지 않습니다.'}
+
+
 @app.route('/', methods=['GET'])
 def home():
     received_token = request.cookies.get(TOKEN_NAME);
