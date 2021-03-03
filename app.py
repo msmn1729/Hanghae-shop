@@ -15,8 +15,8 @@ def home():
     return render_template('main.html')
 
 
-@app.route('/login', methods=['GET'])
-def login():
+@app.route('/user/login', methods=['GET'])
+def userLoginPage():
     return render_template('login.html')
 
 
