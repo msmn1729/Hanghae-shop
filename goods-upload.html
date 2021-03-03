@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- slick: Slideshow library (need jQuery) -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+    <style>
+        /* google font: Noto Sans KR */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+        :root {
+            --color-signature: #3585c1;
+            --color-carrot-market: #ff8a3d;
+            --color-joonggonara: #e8344e;
+            --color-hello-market: #0484f6;
+
+            --white-normal: #fafafa;
+            --white-dark: #f3f3f3;
+
+            --purple-normal: #a238d9;
+            --purple-highlight: #C338FA;
+
+            --black-normal: #18191A;
+
+            --grey-normal: #242526;
+            --grey-light: #3a3b3c;
+            --grey-lighter: #ACAFB3;
+
+            --red-normal: #ff0000;
+
+            --text-smaller: 0.8rem;
+            --text-small: 1.1rem;
+            --text-normal: 1.25rem;
+            --text-littlebig: 2rem;
+            --text-big: 3rem;
+            --text-ultrabig: 5rem;
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        input, textarea {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: normal;
+        }
+
+        body {
+            font-size: 10px;
+            font-family: 'Noto Sans KR', sans-serif;
+
+            display: flex;
+            flex-flow: column;
+        }
+
+        .wrap {
+            width: 800px;
+            margin: 0px auto;
+            text-align: center;
+        }
+
+        #header {
+            display: flex;
+            flex-flow: row;
+        }
+
+        #header > #back-button-box {
+            display: inline;
+            flex-grow: 1;
+        }
+
+        #header > #back-button-box > #back-button {
+            background-color: transparent;
+            height: 100%;
+            display: inline-block;
+            border: none;
+            color: var(--black-normal);
+            float: left;
+            padding: 0px 20px;
+        }
+
+        #header > #title-box {
+            flex-grow: 5;
+        }
+
+        #title-box {
+            display: inline-block;
+            font-weight: normal;
+            font-size: var(--text-littlebig);
+            color: var(--black-normal);
+        }
+
+        #confirm-button-box {
+            display: inline;
+            flex-grow: 1;
+        }
+
+        #confirm-button-box > #confirm-button {
+            background-color: transparent;
+            height: 100%;
+            display: inline-block;
+            border: none;
+            float: right;
+            padding: 0px 20px;
+
+            color: var(--black-normal);
+            font-size: var(--text-normal);
+        }
+
+
+        /* contents */
+        #contents {
+            margin-top: 20px;
+            padding: 0px 40px;
+        }
+
+        input.text-line {
+            width: 100%;
+            font-weight: normal;
+            font-size: var(--text-normal);
+
+            background-color: transparent;
+            color: var(--black-normal);
+            outline: none;
+            outline-style: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 1px solid var(--grey-lighter);
+            padding: 3px 10px;
+        }
+
+        #goods-name, #goods-price, #goods-description {
+            margin-top: 40px;
+        }
+
+        #goods-description, #goods-description-box, #goods-description {
+            border: none;
+            width: 100%;
+
+            font-weight: normal;
+            font-size: var(--text-normal);
+
+            /* js에서 자동으로 스크롤을 올려주는 기능을 만들어 기존 TextArea의 스크롤을 대체했습니다. */
+            resize: none;
+            overflow-y: hidden; /* prevents scroll bar flash */
+            line-height: 1.6;
+        }
+
+        #goods-description:focus {
+            outline: none !important;
+
+        }
+
+        /*
+        ███████╗██╗     ██╗██████╗ ███████╗███████╗██╗  ██╗ ██████╗ ██╗    ██╗
+        ██╔════╝██║     ██║██╔══██╗██╔════╝██╔════╝██║  ██║██╔═══██╗██║    ██║
+        ███████╗██║     ██║██║  ██║█████╗  ███████╗███████║██║   ██║██║ █╗ ██║
+        ╚════██║██║     ██║██║  ██║██╔══╝  ╚════██║██╔══██║██║   ██║██║███╗██║
+        ███████║███████╗██║██████╔╝███████╗███████║██║  ██║╚██████╔╝╚███╔███╔╝
+        ╚══════╝╚══════╝╚═╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝
+        */
+        /* Slideshow */
+        #goods-slideshow {
+            width: 530px;
+            margin: 0px auto;
+        }
+
+        #goods-slideshow > .goods-slideshow-img-box {
+
+        }
+
+        .slick-slide {
+            margin: 10px;
+        }
+
+        .slick-slide img {
+            height: 300px;
+            border: 2px solid #fff;
+
+            /* 이미지의 크기가 표시하려는 영역의 크기와 일치하지 않아도 이미지의 전체 영역이 보여질 수 있도록 합니다. */
+            background-size: cover;
+            background-position: center;
+            object-fit: cover;
+        }
+
+        /* Color of the arrows */
+        .slick-next::before, .slick-prev::before {
+            color: turquoise;
+        }
+
+    </style>
+
+    <script>
+
+        $(document).ready(function () {
+            initializeSlick();
+
+            initializeTextareaScrollHeightEvent()
+        });
+
+        function initializeSlick() {
+
+            $('#goods-slideshow').slick({
+                dots: true,
+                arrows: true,
+                responsive: true,
+                centerMode: true,
+                speed: 1000,
+                easing: 'easeInOutQuart'
+            });
+
+            // On swipe event
+            $('.your-element').on('swipe', function (event, slick, direction) {
+                console.log(direction);
+                // left
+            });
+
+            // On edge hit
+            $('.your-element').on('edge', function (event, slick, direction) {
+                console.log('edge was hit')
+            });
+
+            // On before slide change
+            $('.your-element').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+                console.log(nextSlide);
+            });
+
+            console.log('slick initialized!');
+        }
+
+        /* TextArea의 내용이 채워짐에 따라 자동으로 스크롤의 길이를 늘려주는 스크립트입니다. */
+        /* http://stackoverflow.com/users/673282 */
+        function initializeTextareaScrollHeightEvent() {
+            $(document).ready(function () {
+                $('#goods-description-box').on('keyup', 'textarea', function (e) {
+                    $(this).css('height', 'auto');
+                    $(this).height(this.scrollHeight);
+                });
+                $('#goods-description-box').find('textarea').keyup();
+            });
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="wrap">
+    <div id="header">
+        <div id="back-button-box">
+            <button id="back-button" class="fas fa-angle-left fa-3x" onclick="onClickBack()" type="button"></button>
+        </div>
+        <div id="title-box">
+            <p>물건 등록</p>
+        </div>
+        <div id="confirm-button-box">
+            <button id="confirm-button" onclick="onClickConfirm()" type="button">완료</button>
+        </div>
+
+    </div>
+
+    <div id="contents">
+
+        <!-- Slideshow -->
+        <div id="goods-slideshow">
+            <div class="goods-slideshow-img-box">
+                <img class="goods-slideshow-img" src="http://image.dongascience.com/Photo/2017/03/14900752352661.jpg">
+            </div>
+            <div class="goods-slideshow-img-box">
+                <img class="goods-slideshow-img"
+                     src="https://lh3.googleusercontent.com/proxy/5f-EFleLisJO-xWtBbdLvxMFjtLx1TdO6YJ-X9XBss5SwVuvsZQv1kNm7RN16milm_8B6Kl-lbuRmqK6gIzbp_oR8tW_TFCShN9sLy1GbkaYKxg-ai4">
+            </div>
+            <div class="goods-slideshow-img-box">
+                <img class="goods-slideshow-img"
+                     src="http://img.khan.co.kr/news/2019/11/29/l_2019112901003607500286631.jpg">
+            </div>
+            <div class="goods-slideshow-img-box">
+                <img class="goods-slideshow-img"
+                     src="http://image.dongascience.com/Photo/2019/11/10ed7359329fe87a2dc84921babb17e0.jpg">
+            </div>
+            <div class="goods-slideshow-img-box">
+                <img class="goods-slideshow-img"
+                     src="https://i.pinimg.com/originals/43/59/ac/4359acf073c3a796ff30dc4388f86279.jpg">
+            </div>
+        </div>
+
+        <!-- name, price, description -->
+        <div>
+            <input id="goods-name" type="text" class="text-line" placeholder="글 제목을 입력해주세요"/>
+        </div>
+
+        <div>
+            <input id="goods-price" type="text" class="text-line" placeholder="₩"/>
+        </div>
+
+        <div id="goods-description-box">
+            <textarea id="goods-description" , placeholder="설명을 적어주세요"></textarea>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+</html>
