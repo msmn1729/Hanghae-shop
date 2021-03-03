@@ -127,7 +127,9 @@
         }
 
         function onClickSearch() {
+            let keywords = $('#search-keyword').val();
 
+            window.location.href = `/goods/search?keywords=${keywords}`;
         }
     </script>
 </head>
