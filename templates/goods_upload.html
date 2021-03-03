@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -209,8 +208,9 @@
 
         $(document).ready(function () {
             initializeSlick();
+            initializeTextareaScrollHeightEvent();
 
-            initializeTextareaScrollHeightEvent()
+            createGoods()
         });
 
         function initializeSlick() {
@@ -254,6 +254,53 @@
                 $('#goods-description-box').find('textarea').keyup();
             });
         }
+
+
+        {#
+        ##################################################################################################
+        ##################################################################################################
+        ##################################################################################################
+        #}
+
+        function onClickBack() {
+            window.location.href = '/'
+        }
+
+        function onClickConfirm() {
+            let goods_name = $('#goods-name').val()
+            let goods_price = $('#goods-price').val()
+            let goods_desc = $('#goods-description').val()
+
+
+            if (goods_name.length == 0) {
+                alert('제목을 입력해주세요.')
+            } else if (goods_price.length == 0) {
+                alert('가격을 입력해주세요.')
+            } else if (goods_desc.length == 0) {
+                alert('내용을 입력주세요.')
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/goods/create",
+                    data: {
+                        'title_give': goods_name, 'price_give': goods_price,
+                        'desc_give': goods_desc
+                    },
+                    success: function (response) {
+                        alert(response['msg'])
+                        window.location.href = '/'
+                    }
+                })
+
+            }
+        }
+
+        {#
+        ##################################################################################################
+        ##################################################################################################
+        ##################################################################################################
+        #}
+
 
     </script>
 
@@ -304,11 +351,11 @@
         </div>
 
         <div>
-            <input id="goods-price" type="text" class="text-line" placeholder="₩"/>
+            <input id="goods-price" type="text" class="text-line" placeholder="희망하는 가격을 입력해주세요"/>
         </div>
 
         <div id="goods-description-box">
-            <textarea id="goods-description" , placeholder="설명을 적어주세요"></textarea>
+            <textarea id="goods-description" , style="margin-left: 10px" placeholder="제품에 대한 설명을 적어주세요"></textarea>
         </div>
 
     </div>
