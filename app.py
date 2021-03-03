@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
+from bson.json_util import dumps
 import hashlib
 import jwt
 import datetime
@@ -99,10 +100,25 @@ def userRegisterPost():
 
 
 @app.route('/goods/search', methods=['GET'])
-def getGoodsSearch():
-    received_keywords = request.args.get("keywords");
-    print('searched keywords: ', received_keywords);
-    return render_template('goods.html', keywords=received_keywords);
+def goodsSearchPage():
+    received_keywords: str = request.args.get("keywords")
+
+    # 검색어를 ' '(빈 칸)으로 쪼갠 뒤, 쪼개진 단어들이 제목에 포함되어 있는지 검사합니다.
+    # 한 단어라도 포함되어 있다면 검색 결과에 나타나게 됩니다.
+    splitted_keywords = received_keywords.split(' ')
+
+    search_condition_list = []
+    for string in splitted_keywords:
+        search_condition_list.append({"title": {"$regex": ".*" + string + ".*"}})
+
+    searched_goods = list(db.goods.find({"$or": search_condition_list}, {'_id': False}))
+
+    # DEBUG 검색 결과를 확인하는 테스트코드입니다.
+    for goods in searched_goods:
+        print(goods)
+
+    return render_template('goods.html', keywords=received_keywords,
+                           searched_goods=dumps(searched_goods, ensure_ascii=False))
 
 
 if __name__ == '__main__':

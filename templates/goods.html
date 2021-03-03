@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
     <style>
         /* google font: Noto Sans KR */
@@ -266,6 +269,46 @@
         }
 
     </style>
+
+    <script>
+        $(document).ready(function () {
+            fillSearchedGoodsList();
+        });
+
+        function fillSearchedGoodsList() {
+            let searched_goods = {{ searched_goods | tojson | safe }};
+            let converted_searched_goods = JSON.parse(searched_goods);
+
+            console.log(converted_searched_goods);
+
+            $('#goods-box').empty();
+            for (let i = 0; i < converted_searched_goods.length; i++) {
+
+                let title = converted_searched_goods[i]['title'];
+                let price = converted_searched_goods[i]['price'];
+
+                let html_template = `<!-- goods card -->
+                                        <div class="goods-card">
+                                            <img class="goods-card-img"
+                                                 src="https://t1.daumcdn.net/liveboard/holapet/0e5f90af436e4c218343073164a5f657.JPG"
+                                                 alt="Card image cap">
+                                            <div class="goods-card-body">
+                                                <p class="goods-card-name">${title}</p>
+                                                <p class="goods-card-price">${price}원</p>
+                                            </div>
+                                        </div>
+                                    <!-- end goods card -->`;
+
+                $('#goods-box').append(html_template);
+            }
+        }
+
+            function onClickSearch() {
+                let keywords = $('#search-keyword').val();
+
+                window.location.href = `/goods/search?keywords=${keywords}`;
+            }
+    </script>
 </head>
 <body>
 <div class="wrap">
