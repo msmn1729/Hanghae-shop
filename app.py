@@ -13,6 +13,11 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/user/register', methods=['GET'])
+def userRegister():
+    return render_template('modify_member_infomation.html')
+
+
 @app.route('/goods/search', methods=['GET'])
 def getGoodsSearch():
     received_keywords = request.args.get("keywords");
