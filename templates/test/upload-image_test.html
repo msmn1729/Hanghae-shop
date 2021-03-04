@@ -6,7 +6,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        function update_profile() {
+
+        function upload_goods_image() {
             let file = $('#input-pic')[0].files[0]
             let form_data = new FormData()
             form_data.append("file_give", file)
@@ -35,7 +36,7 @@
         }
 
         function onClickUpload() {
-            update_profile();
+            upload_goods_image();
         }
 
         function onClickShowImage() {
@@ -50,7 +51,7 @@
 </head>
 <body>
 
-<input id="input-pic" class="file-input" type="file" name="resume">
+<input id="input-pic" class="file-input" type="file" onchange="console.log('파일이 바뀌었습니다.');">
 <button onclick="onClickUpload()">업로드하기</button>
 
 <input id="target-image" type="text">
