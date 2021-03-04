@@ -91,7 +91,7 @@ def userLogin():
 
         # token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        token = str(token)  # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
+        token = str(token, encoding="utf-8")  # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
 
         # token을 줍니다.
         return jsonify({'success': True, 'message': '로그인에 성공하였습니다.', TOKEN_NAME: token})
