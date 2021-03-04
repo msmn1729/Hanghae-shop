@@ -6,6 +6,7 @@ import hashlib
 import jwt
 import datetime
 import os
+import ast
 
 SECRET_KEY = 'Pl^EqCCvnI(d3xDBFofHyxHxLtuBWs';
 TOKEN_NAME = 'login_token';
@@ -148,11 +149,16 @@ def goods_create():
     title_receive = request.form['title_give']
     price_receive = request.form['price_give']
     desc_receive = request.form['desc_give']
+    images_receive = request.form['images_give']
+
+    images = ast.literal_eval(images_receive)
 
     doc = {
+        'seller_id': user_id,
         'title': title_receive,
         'price': price_receive,
-        'desc': desc_receive
+        'desc': desc_receive,
+        'images': images
     }
     db.goods.insert_one(doc);
 
