@@ -215,14 +215,19 @@ def goods_info_page(goods_id):
 
 @app.route('/goods/image', methods=['POST'])
 def upload_goods_image():
+    # 이미지 업로드 전에 클라이언트의 토큰이 유효한지 확인합니다.
+    received_token = request.cookies.get(TOKEN_NAME);
+    check_token_validate_result = tryGetUserInfoWithToken(received_token)
+
+    if check_token_validate_result['success'] is False:
+        return jsonify({'success': False, 'message': '올바른 토큰이 아닙니다. 다시 로그인하여 토큰을 재발급 받아주세요.'})
+
+    # 클라이언트로부터 건네져 온 파일이 정상적인 이미지 파일인지 확인합니다.
     received_file = request.files['file_give']
 
-    # check if the post request has the file part
     if received_file is None:
-        return jsonify({"success": False, "message": "올바른 파일이 아닙니다."})
+        return jsonify({"success": False, "message": "올바른 사진을 업로드해주세요."})
 
-    # if user does not select file, browser also
-    # submit a empty part without filename
     if received_file.filename == '':
         return jsonify({"success": False, "message": "올바른 사진을 업로드해주세요."})
 
