@@ -42,12 +42,11 @@
 
         function fillGoodsInfo() {
             let goods_images = {{ images | tojson | safe }};
-            let converted_goods_images = JSON.parse(goods_images);
 
             $('#goods-image-box').empty();
-            for (let i = 0; i < converted_goods_images.length; i++) {
+            for (let i = 0; i < goods_images.length; i++) {
 
-                let image = converted_goods_images[i];
+                let image = goods_images[i];
 
                 let html_template_header = i === 0 ? '<div class="item active">' : '<div class="item">';
                 let html_template = `${html_template_header}
