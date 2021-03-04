@@ -206,11 +206,11 @@
 
     <script>
 
+        let uploaded_image_list = []
+
         $(document).ready(function () {
             initializeSlick();
             initializeTextareaScrollHeightEvent();
-
-            createGoods()
         });
 
         function initializeSlick() {
@@ -222,22 +222,6 @@
                 centerMode: true,
                 speed: 1000,
                 easing: 'easeInOutQuart'
-            });
-
-            // On swipe event
-            $('.your-element').on('swipe', function (event, slick, direction) {
-                console.log(direction);
-                // left
-            });
-
-            // On edge hit
-            $('.your-element').on('edge', function (event, slick, direction) {
-                console.log('edge was hit')
-            });
-
-            // On before slide change
-            $('.your-element').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-                console.log(nextSlide);
             });
 
             console.log('slick initialized!');
@@ -255,6 +239,42 @@
             });
         }
 
+
+        function onChangeUploadImageInput() {
+
+            let file = $('#upload-image-input')[0].files[0]
+            let form_data = new FormData()
+            form_data.append("file_give", file)
+            console.log(file, form_data)
+
+            $.ajax({
+                type: "POST",
+                url: "/goods/image",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response['success']) {
+                        let image = response['image'];
+
+                        // 글 작성 완료시에 이미지 주소를 한번에 보내기 위해 리스트에 저장합니다.
+                        uploaded_image_list.push(image);
+
+                        let html_template = `<div class="goods-slideshow-img-box">
+                                                <img class="goods-slideshow-img" src="${image}">
+                                            </div>`;
+
+                        $('#goods-slideshow').append(html_template);
+
+                        $('#goods-slideshow').slick("unslick");
+                        initializeSlick();
+                    }
+
+                }
+            });
+
+        }
 
         {#
         ##################################################################################################
@@ -279,12 +299,15 @@
             } else if (goods_desc.length == 0) {
                 alert('내용을 입력주세요.')
             } else {
+
+                console.log(JSON.stringify(uploaded_image_list));
+
                 $.ajax({
                     type: "POST",
                     url: "/goods/create",
                     data: {
                         'title_give': goods_name, 'price_give': goods_price,
-                        'desc_give': goods_desc
+                        'desc_give': goods_desc, 'images_give': JSON.stringify(uploaded_image_list)
                     },
                     success: function (response) {
                         alert(response['msg'])
@@ -321,28 +344,21 @@
     </div>
 
     <div id="contents">
+        <div>
+            <input id="upload-image-input" onchange="onChangeUploadImageInput()" class="file-input" type="file"
+                   accept="image/png, image/jpg, image/jpeg, image/gif">
+        </div>
 
         <!-- Slideshow -->
         <div id="goods-slideshow">
+
+            <!-- goods-slideshow-card example -->
+            <!--
             <div class="goods-slideshow-img-box">
                 <img class="goods-slideshow-img" src="http://image.dongascience.com/Photo/2017/03/14900752352661.jpg">
             </div>
-            <div class="goods-slideshow-img-box">
-                <img class="goods-slideshow-img"
-                     src="https://lh3.googleusercontent.com/proxy/5f-EFleLisJO-xWtBbdLvxMFjtLx1TdO6YJ-X9XBss5SwVuvsZQv1kNm7RN16milm_8B6Kl-lbuRmqK6gIzbp_oR8tW_TFCShN9sLy1GbkaYKxg-ai4">
-            </div>
-            <div class="goods-slideshow-img-box">
-                <img class="goods-slideshow-img"
-                     src="http://img.khan.co.kr/news/2019/11/29/l_2019112901003607500286631.jpg">
-            </div>
-            <div class="goods-slideshow-img-box">
-                <img class="goods-slideshow-img"
-                     src="http://image.dongascience.com/Photo/2019/11/10ed7359329fe87a2dc84921babb17e0.jpg">
-            </div>
-            <div class="goods-slideshow-img-box">
-                <img class="goods-slideshow-img"
-                     src="https://i.pinimg.com/originals/43/59/ac/4359acf073c3a796ff30dc4388f86279.jpg">
-            </div>
+            -->
+            <!-- end goods-slideshow-card example -->
         </div>
 
         <!-- name, price, description -->
