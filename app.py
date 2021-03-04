@@ -1,9 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 from bson.json_util import dumps
+import datetime
 import hashlib
 import jwt
-import datetime
 
 SECRET_KEY = 'Pl^EqCCvnI(d3xDBFofHyxHxLtuBWs';
 TOKEN_NAME = 'login_token';
@@ -142,26 +142,37 @@ def goods_create():
     title_receive = request.form['title_give']
     price_receive = request.form['price_give']
     desc_receive = request.form['desc_give']
+    now = datetime.datetime.now()
+    print('%02d/%02d/%04d %02d:%02d:%02d' % (now.month, now.day, now.year, now.hour, now.minute, now.second))
+    cur_time = str(now.year) + '/' + str(now.month).zfill(2) + '/' + str(now.day).zfill(2) + ' ' + str(now.hour).zfill(2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
 
     doc = {
         'title': title_receive,
         'price': price_receive,
-        'desc': desc_receive
+        'desc': desc_receive,
+        'upload_time': cur_time
     }
     db.goods.insert_one(doc);
 
     return jsonify({'result': 'success', 'msg': '글 등록 완료!\n\n메인 페이지로 이동합니다.'})
 
+
 @app.route('/goods/read/<keyword>')
 def goods_info_page(keyword):
     goods_list = list(db.goods.find({}))
+    upload_time = 'asd'
     for goods in goods_list:
         if str(goods['_id']) == keyword:
             title = goods['title']
             price = goods['price']
             desc = goods['desc']
+            print(goods['upload_time'])
+            if goods['upload_time'] != None:
+                upload_time = goods['upload_time']
+
+    # print(upload_time)
     return render_template('goods_info.html', title=title, price=price,
-                           desc=desc)
+                           desc=desc, upload_time=upload_time)
 
 
 ####################################################
