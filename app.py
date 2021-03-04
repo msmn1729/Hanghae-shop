@@ -10,7 +10,8 @@ TOKEN_NAME = 'login_token';
 
 app = Flask(__name__)
 
-client = MongoClient('localhost', 27017)
+# client = MongoClient('localhost', 27017) # 로컬
+client = MongoClient('mongodb://test:test@localhost', 27017) # 서버 배포할 때 아이디:비밀번호 형식 현재는 둘 다 test
 db = client.hanghaeshop
 
 
@@ -67,7 +68,9 @@ def userLogin():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
         }
 
+        # token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        token = str(token) # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
 
         # token을 줍니다.
         return jsonify({'success': True, 'message': '로그인에 성공하였습니다.', TOKEN_NAME: token})
