@@ -21,8 +21,8 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-client = MongoClient('localhost', 27017)  # 로컬
-# client = MongoClient('mongodb://test:test@localhost', 27017) # 서버 배포할 때 아이디:비밀번호 형식 현재는 둘 다 test
+# client = MongoClient('localhost', 27017)  # 로컬
+client = MongoClient('mongodb://test:test@localhost', 27017)  # 서버 배포할 때 아이디:비밀번호 형식 현재는 둘 다 test
 db = client.hanghaeshop
 
 
@@ -90,8 +90,18 @@ def userLogin():
         }
 
         # token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        # token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        # token = str(token)  # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        token = str(token)  # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
+        token = str(token, encoding="utf-8")  # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
+        print('payload: ', payload)
+        print('token: ', token)
+        # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
+        token = str(token, encoding="utf-8")
+        # print(type(token))
+        # token = str(token.decode("utf-8"))
+        print('str(token)', token)
+        print(hashlib.sha256(received_password.encode('utf-8')))
 
         # token을 줍니다.
         return jsonify({'success': True, 'message': '로그인에 성공하였습니다.', TOKEN_NAME: token})
@@ -233,6 +243,7 @@ def upload_goods_image():
 
     # 클라이언트로부터 건네져 온 파일이 정상적인 이미지 파일인지 확인합니다.
     received_file = request.files['file_give']
+    print(received_file)
 
     if received_file is None:
         return jsonify({"success": False, "message": "올바른 사진을 업로드해주세요."})
