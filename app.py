@@ -10,8 +10,8 @@ TOKEN_NAME = 'login_token';
 
 app = Flask(__name__)
 
-# client = MongoClient('localhost', 27017) # 로컬
-client = MongoClient('mongodb://test:test@localhost', 27017) # 서버 배포할 때 아이디:비밀번호 형식 현재는 둘 다 test
+client = MongoClient('localhost', 27017)  # 로컬
+# client = MongoClient('mongodb://test:test@localhost', 27017) # 서버 배포할 때 아이디:비밀번호 형식 현재는 둘 다 test
 db = client.hanghaeshop
 
 
@@ -70,7 +70,7 @@ def userLogin():
 
         # token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        token = str(token) # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
+        token = str(token)  # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
 
         # token을 줍니다.
         return jsonify({'success': True, 'message': '로그인에 성공하였습니다.', TOKEN_NAME: token})
@@ -114,7 +114,9 @@ def goodsSearchPage():
     for string in splitted_keywords:
         search_condition_list.append({"title": {"$regex": ".*" + string + ".*"}})
 
-    searched_goods = list(db.goods.find({"$or": search_condition_list}, {'_id': False}))
+    ## _id로 상품페이지를 구분하도록함
+    # searched_goods = list(db.goods.find({"$or": search_condition_list}, {'_id': False}))
+    searched_goods = list(db.goods.find({"$or": search_condition_list}))
 
     # DEBUG 검색 결과를 확인하는 테스트코드입니다.
     for goods in searched_goods:
@@ -122,6 +124,7 @@ def goodsSearchPage():
 
     return render_template('goods.html', keywords=received_keywords,
                            searched_goods=dumps(searched_goods, ensure_ascii=False))
+
 
 ####################################################
 ####################################################
@@ -132,6 +135,7 @@ def goodsSearchPage():
 @app.route('/goods/create', methods=['GET'])
 def goods_create_page():
     return render_template('goods_upload.html')
+
 
 @app.route('/goods/create', methods=['POST'])
 def goods_create():
@@ -148,11 +152,17 @@ def goods_create():
 
     return jsonify({'result': 'success', 'msg': '글 등록 완료!\n\n메인 페이지로 이동합니다.'})
 
+@app.route('/goods/read/<keyword>')
+def goods_info_page(keyword):
+    goods_list = list(db.goods.find({}))
+    for goods in goods_list:
+        if str(goods['_id']) == keyword:
+            title = goods['title']
+            price = goods['price']
+            desc = goods['desc']
+    return render_template('goods_info.html', title=title, price=price,
+                           desc=desc)
 
-## 상품 상세페이지 API
-@app.route('/goods/read', methods=['GET'])
-def goods_read_page():
-    return render_template('goods_info.html')
 
 ####################################################
 ####################################################
