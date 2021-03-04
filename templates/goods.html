@@ -171,6 +171,10 @@
             color: var(--color-signature);
         }
 
+        #goods-not-found-alert-box{
+            font-size: var(--text-normal);
+        }
+
     </style>
 
     <script>
@@ -184,7 +188,11 @@
 
             let converted_searched_goods = JSON.parse(searched_goods);
 
-            console.log(converted_searched_goods);
+            if(converted_searched_goods.length == 0)
+            {
+                $('#goods-not-found-alert-box').css("display", "block");
+                return;
+            }
 
             $('#goods-box').empty();
             for (let i = 0; i < converted_searched_goods.length; i++) {
@@ -192,7 +200,6 @@
                 let title = converted_searched_goods[i]['title'];
                 let price = converted_searched_goods[i]['price'];
                 let goods_id = converted_searched_goods[i]['_id']['$oid'];
-                {#alert(id)#}
 
                 let html_template = `<div class="goods-card">
                                             <img class="goods-card-img"
@@ -245,6 +252,11 @@
         </div>
         -->
         <!-- end goods card -->
+    </div>
+
+    <div id="goods-not-found-alert-box" style="display: none">
+        <p>"{{ keywords }}"로 찾은 물건의 결과가 없습니다 😅</p>
+        <p>다른 검색어로 검색해보시겠어요?</p>
     </div>
 </div>
 </body>
