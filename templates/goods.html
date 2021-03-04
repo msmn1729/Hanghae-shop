@@ -171,7 +171,7 @@
             color: var(--color-signature);
         }
 
-        #goods-not-found-alert-box{
+        #goods-not-found-alert-box {
             font-size: var(--text-normal);
         }
 
@@ -188,8 +188,7 @@
 
             let converted_searched_goods = JSON.parse(searched_goods);
 
-            if(converted_searched_goods.length == 0)
-            {
+            if (converted_searched_goods.length == 0) {
                 $('#goods-not-found-alert-box').css("display", "block");
                 return;
             }
@@ -201,9 +200,20 @@
                 let price = converted_searched_goods[i]['price'];
                 let goods_id = converted_searched_goods[i]['_id']['$oid'];
 
+                let thumbnail;
+                let images = converted_searched_goods[i]['images'];
+                if (images.length > 0) {
+                    for (let i = 0; i < images.length; i++) {
+                        if (images[i]) {
+                            thumbnail = images[i];
+                            break;
+                        }
+                    }
+                }
+
                 let html_template = `<div class="goods-card">
                                             <img class="goods-card-img"
-                                                     src="https://dnvefa72aowie.cloudfront.net/origin/article/202102/908D271BD163AB26F96A714FD80785936F5E9BE1513CD2F180DB7B08BD9FF4C2.jpg?q=95&s=1440x1440&t=inside"
+                                                     src="${thumbnail}"
                                                  alt="Card image cap">
                                             <div class="goods-card-body">
                                                 <a class="goods-card-name" href="/goods/read/${goods_id}">${title}</a>
