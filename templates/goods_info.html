@@ -43,6 +43,13 @@
         function fillGoodsInfo() {
             let goods_images = {{ images | tojson | safe }};
 
+            if(goods_images.length == 0)
+            {
+                console.log('hello')
+                $('#goods-image-placeholder').css("display", "block");
+                return;
+            }
+
             $('#goods-image-box').empty();
             for (let i = 0; i < goods_images.length; i++) {
 
@@ -82,6 +89,13 @@
             </div>
             -->
             <!-- end goods image card -->
+
+            <div id="goods-image-placeholder" class="item active" style="display: none">
+                <img
+                     style="width: 500px; height: 400px">
+            </div>
+
+
         </div>
 
         <!-- Left and right controls -->
