@@ -205,7 +205,7 @@ def goods_info_page(goods_id):
     desc = goods['desc']
     images = goods['images']
 
-    if goods['upload_time'] != None:
+    if 'upload_time' in goods:
         upload_time = goods['upload_time']
 
     # print(upload_time)
