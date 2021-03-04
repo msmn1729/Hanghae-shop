@@ -40,12 +40,12 @@
                 data: {id_give: id, password_give: password, email_give: email},
                 success: function (response) {
 
-                    let received_message = response['message'];
+                    if (response['success'] == true) {
+                        window.location.href = '/greeting'
+                    } else {
+                        alert(response['message']);
+                    }
 
-                    alert(received_message);
-
-                    if (response['success'] == true)
-                        window.location.href = '/user/login'
 
                 }
             })

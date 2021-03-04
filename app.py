@@ -65,6 +65,11 @@ def home():
     return render_template('main.html', isLogin=isLogin, latest_goods=dumps(latest_goods, ensure_ascii=False))
 
 
+@app.route('/greeting', methods=['GET'])
+def greeting():
+    return render_template('greeting.html')
+
+
 @app.route('/user/login', methods=['GET'])
 def userLoginPage():
     return render_template('login.html')
