@@ -217,13 +217,14 @@ def goods_info_page(goods_id):
     price = goods['price']
     desc = goods['desc']
     images = goods['images']
+    seller_id = goods['seller_id']
 
     if 'upload_time' in goods:
         upload_time = goods['upload_time']
 
     # print(upload_time)
     return render_template('goods_info.html', title=title, price=price,
-                           desc=desc, upload_time=upload_time, images=images)
+                           desc=desc, upload_time=upload_time, images=images, seller_id=seller_id)
 
 
 @app.route('/goods/image', methods=['POST'])
