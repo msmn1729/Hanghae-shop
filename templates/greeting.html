@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>환영합니다!</title>
 
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
     <style>
         /* google font: Noto Sans KR */
@@ -42,6 +45,10 @@
         }
 
         body {
+            height: 100%;
+            background-image: url('../static/main_background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
             font-size: 10px;
             font-family: 'Noto Sans KR', sans-serif;
         }
@@ -76,6 +83,14 @@
         }
 
     </style>
+
+    <script>
+
+        $(document).ready(function () {
+            setTimeout(() => window.location.href = '/user/login', 3000)
+        });
+
+    </script>
 
 </head>
 <body>

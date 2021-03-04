@@ -55,6 +55,11 @@
         }
 
         body {
+            height: 100%;
+            background-image: url('../static/main_background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+
             font-size: 10px;
             font-family: 'Noto Sans KR', sans-serif;
         }
@@ -64,6 +69,7 @@
             margin: 0px auto;
             text-align: center;
         }
+
 
         #header {
             margin-top: 30px;
@@ -193,7 +199,7 @@
             color: var(--color-signature);
         }
 
-        #goods-box-header{
+        #goods-box-header {
             margin: 30px 0px;
             text-align: left;
         }
@@ -203,7 +209,7 @@
             font-size: var(--text-normal);
         }
 
-        #goods-box-header > h2{
+        #goods-box-header > h2 {
             font-weight: lighter;
             font-size: var(--text-small);
         }
@@ -302,12 +308,12 @@
 
     <div id="title">
         <h1>항해#</h1>
-        <h2>망망대해 속 숨겨진 꿀-템을 찾아</h2>
-        <h2>당신의 항해를 시작하세요</h2>
+        <h2>망망대해 속 숨겨진 "꿀-템"을 찾아</h2>
+        <h2>당신의 항해를 시작하세요!</h2>
     </div>
 
     <div id="search-box">
-        <input id="search-keyword" placeholder="검색어를 입력하세요.">
+        <input id="search-keyword" placeholder="검색어를 입력하세요." style="opacity: 0.5;">
         <button id="search-button" class="fa fa-search" onclick="onClickSearch()" type="button"></button>
     </div>
 
@@ -317,7 +323,7 @@
 
     <div id="goods-box-header">
         <h1>날씨 좋군요!</h1>
-        <h2>방금 막 바다로 나온 물건들로 보이는군요</h2>
+        <h2>방금 막 바다로 나온 물건들로 보이는군요 ~.~</h2>
     </div>
 
     <div id="goods-box">

@@ -33,6 +33,13 @@
             height: 400px;
             margin: 10% auto auto;
         }
+
+        html, body {
+            height: 100%;
+            background-image: url('../static/main_background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
     </style>
 
     <script>
@@ -43,8 +50,7 @@
         function fillGoodsInfo() {
             let goods_images = {{ images | tojson | safe }};
 
-            if(goods_images.length == 0)
-            {
+            if (goods_images.length == 0) {
                 console.log('hello')
                 $('#goods-image-placeholder').css("display", "block");
                 return;
@@ -92,7 +98,7 @@
 
             <div id="goods-image-placeholder" class="item active" style="display: none">
                 <img
-                     style="width: 500px; height: 400px">
+                        style="width: 500px; height: 400px">
             </div>
 
 
