@@ -21,6 +21,9 @@
     <!--Custom styles-->
     <link rel="stylesheet" type="text/css" href="../static/styles.css">
 
+    <!-- 이거 없으면 에러-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
     <script>
 
         const TOKEN_NAME = 'login_token';
@@ -45,9 +48,9 @@
                     alert(received_message);
 
                     if (response['success']) {
+                        window.location.href = '/';
                         $.cookie(TOKEN_NAME, response[TOKEN_NAME], {path: '/'});
                         console.log(document.cookie);
-                        window.location.href = '/';
                     }
 
                 }
@@ -62,7 +65,7 @@
         <div class="card">
             <div class="card-header" style="text-align: center">
                 <br>
-                <h1 style="font-size: 350%; text-shadow: 0 0 5px #f3f3f3;">항해#</h1>
+                <h1 style="font-size: 350%; text-shadow: 0 0 10px #f3f3f3;">항해#</h1>
             </div>
             <div class="card-body">
                 <form>
