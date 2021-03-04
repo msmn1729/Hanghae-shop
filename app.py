@@ -171,7 +171,8 @@ def goods_create():
     desc_receive = request.form['desc_give']
     now = datetime.datetime.now()
     print('%02d/%02d/%04d %02d:%02d:%02d' % (now.month, now.day, now.year, now.hour, now.minute, now.second))
-    cur_time = str(now.year) + '/' + str(now.month).zfill(2) + '/' + str(now.day).zfill(2) + ' ' + str(now.hour).zfill(2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
+    cur_time = str(now.year) + '/' + str(now.month).zfill(2) + '/' + str(now.day).zfill(2) + ' ' + str(now.hour).zfill(
+        2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
     images_receive = request.form['images_give']
 
     images = ast.literal_eval(images_receive)
@@ -190,22 +191,25 @@ def goods_create():
     return jsonify({'result': 'success', 'msg': '글 등록 완료!\n\n메인 페이지로 이동합니다.'})
 
 
-@app.route('/goods/read/<keyword>')
-def goods_info_page(keyword):
-    goods_list = list(db.goods.find({}))
-    upload_time = 'asd'
-    for goods in goods_list:
-        if str(goods['_id']) == keyword:
-            title = goods['title']
-            price = goods['price']
-            desc = goods['desc']
-            print(goods['upload_time'])
-            if goods['upload_time'] != None:
-                upload_time = goods['upload_time']
+@app.route('/goods/read/<goods_id>')
+def goods_info_page(goods_id):
+    goods = db.goods.find_one({'_id': goods_id})
+
+    if goods is None:
+        return jsonify({'result': 'fail', 'msg': '해당하는 ID의 물품이 없습니다.'})
+
+    upload_time = 'undefinded'
+    title = goods['title']
+    price = goods['price']
+    desc = goods['desc']
+
+    if goods['upload_time'] != None:
+        upload_time = goods['upload_time']
 
     # print(upload_time)
     return render_template('goods_info.html', title=title, price=price,
                            desc=desc, upload_time=upload_time)
+
 
 @app.route('/goods/image', methods=['POST'])
 def upload_goods_image():
