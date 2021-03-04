@@ -35,6 +35,31 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            fillGoodsInfo();
+        });
+
+        function fillGoodsInfo() {
+            let goods_images = {{ images | tojson | safe }};
+            let converted_goods_images = JSON.parse(goods_images);
+
+            $('#goods-image-box').empty();
+            for (let i = 0; i < converted_goods_images.length; i++) {
+
+                let image = converted_goods_images[i];
+
+                let html_template_header = i === 0 ? '<div class="item active">' : '<div class="item">';
+                let html_template = `${html_template_header}
+                                        <img src="${image}"
+                                             style="width: 500px; height: 400px">
+                                    </div>`;
+
+                $('#goods-image-box').append(html_template);
+            }
+        }
+    </script>
+
 </head>
 
 <body>
@@ -49,7 +74,7 @@
         </ol>
 
         <!-- Wrapper for slides -->
-        <div class="carousel-inner">
+        <div id="goods-image-box" class="carousel-inner">
             <!-- goods image card -->
             <!--
             <div class="item active">
