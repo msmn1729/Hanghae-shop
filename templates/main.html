@@ -6,6 +6,8 @@
 
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -147,9 +149,25 @@
     </style>
 
     <script>
+        const TOKEN_NAME = 'login_token';
+        const isLogin = {{ isLogin }};
+
+        $(document).ready(function () {
+            initialize();
+        });
+
+        function initialize() {
+            $('#login-button').css("display", isLogin === 1 ? "none" : "block");
+            $('#logout-button').css("display", isLogin === 1 ? "block" : "none");
+        }
 
         function onClickLogin() {
             window.location.href = '/user/login';
+        }
+
+        function onClickLogout() {
+            $.removeCookie(TOKEN_NAME);
+            window.location.reload();
         }
 
         function onClickSearch() {
@@ -168,6 +186,7 @@
 
     <div id="header" style="white-space:nowrap">
         <button id="login-button" onclick="onClickLogin()" type="button">로그인 / 회원가입</button>
+        <button id="logout-button" onclick="onClickLogout()" type="button" style="display: none;">로그아웃</button>
     </div>
 
     <div id="title">

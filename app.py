@@ -55,8 +55,13 @@ def tryGetUserInfoWithToken(received_token: str):
 @app.route('/', methods=['GET'])
 def home():
     received_token = request.cookies.get(TOKEN_NAME);
+    check_token_validate_result = tryGetUserInfoWithToken(received_token)
 
-    return render_template('main.html')
+    isLogin = 0
+    if check_token_validate_result['success']:
+        isLogin = 1
+
+    return render_template('main.html', isLogin=isLogin)
 
 
 @app.route('/user/login', methods=['GET'])
@@ -204,14 +209,13 @@ def goods_info_page(goods_id):
     price = goods['price']
     desc = goods['desc']
     images = goods['images']
-    seller_id = goods['seller_id']
 
     if 'upload_time' in goods:
         upload_time = goods['upload_time']
 
     # print(upload_time)
     return render_template('goods_info.html', title=title, price=price,
-                           desc=desc, upload_time=upload_time, images=images, seller_id=seller_id)
+                           desc=desc, upload_time=upload_time, images=images)
 
 
 @app.route('/goods/image', methods=['POST'])
