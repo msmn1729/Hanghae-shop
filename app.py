@@ -309,5 +309,12 @@ def test_goods():
 ####################################################
 ####################################################
 
+def initialize():
+    if not os.path.isdir('uploads'):
+        os.makedirs('uploads')
+
+
 if __name__ == '__main__':
+    initialize()
+
     app.run('0.0.0.0', port=5000, debug=True)
