@@ -184,7 +184,6 @@
 
         function fillSearchedGoodsList() {
             let searched_goods = {{ searched_goods | tojson | safe }};
-            {#console.log(searched_goods);#}
 
             let converted_searched_goods = JSON.parse(searched_goods);
 
