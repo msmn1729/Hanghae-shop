@@ -177,6 +177,8 @@
 
         function fillSearchedGoodsList() {
             let searched_goods = {{ searched_goods | tojson | safe }};
+            {#console.log(searched_goods);#}
+
             let converted_searched_goods = JSON.parse(searched_goods);
 
             console.log(converted_searched_goods);
@@ -186,13 +188,15 @@
 
                 let title = converted_searched_goods[i]['title'];
                 let price = converted_searched_goods[i]['price'];
+                let goods_id = converted_searched_goods[i]['_id']['$oid'];
+                {#alert(id)#}
 
                 let html_template = `<div class="goods-card">
                                             <img class="goods-card-img"
                                                      src="https://dnvefa72aowie.cloudfront.net/origin/article/202102/908D271BD163AB26F96A714FD80785936F5E9BE1513CD2F180DB7B08BD9FF4C2.jpg?q=95&s=1440x1440&t=inside"
                                                  alt="Card image cap">
                                             <div class="goods-card-body">
-                                                <a class="goods-card-name" href="/goods/read">${title}</a>
+                                                <a class="goods-card-name" href="/goods/read/${goods_id}">${title}</a>
                                                 <p class="goods-card-price">${price}원</p>
                                             </div>
                                         </div>`;

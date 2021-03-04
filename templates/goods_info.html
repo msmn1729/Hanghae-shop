@@ -24,7 +24,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <title>스파르타코딩클럽 | 부트스트랩 연습하기</title>
+    <title>항해샵</title>
 
     <style>
         .info-wrap {
@@ -34,6 +34,7 @@
             margin: 10% auto auto;
         }
     </style>
+
 </head>
 
 <body>
@@ -70,14 +71,14 @@
         </a>
     </div>
 </div>
-<div class="info-wrap">
-    <h1>아이패드 11인치 판매합니다!</h1>
-    <p style="text-align: left">항해맨</p>
-    <p style="text-align: right">21.03.02 (화)</p>
+<div class="info-wrap" id="goods-info">
+    <h1>{{ title }}</h1>
+    <p style="text-align: left">판매자 아이디</p>
+    <p style="text-align: right">{{ upload_time }}</p>
     <br><br>
-    <h3>여기 설명이 들어갑니다~~</h3>
+    <h3>{{ desc }}</h3>
     <br><br>
-    <p style="text-align: left">금액 : 700,000원
+    <p style="text-align: left">금액 : {{ price }}</p>
     <p style="text-align: right">
         <button type="button" class="btn btn-success">연락하기</button>
         <i class="fa fa-heart" aria-hidden="true"></i>

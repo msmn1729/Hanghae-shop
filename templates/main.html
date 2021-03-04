@@ -11,6 +11,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+    <!-- og 태그 설정 -->
+    <meta property="og:title" content="항해#"/>
+    <meta property="og:description" content="실시간 중고거래 사이트!"/>
+    <meta property="og:image" content="{{ url_for('static', filename='main_ogimage.jpeg') }}"/>
+
     <style>
         /* google font: Noto Sans KR */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
@@ -120,11 +125,11 @@
             color: white;
         }
 
-        #upload-goods-button-box{
+        #upload-goods-button-box {
             margin-top: 20px;
         }
 
-        #upload-goods-button{
+        #upload-goods-button {
             background-color: var(--color-signature);
             border: none;
             padding: 5px 0px;
@@ -150,7 +155,7 @@
             window.location.href = `/goods/search?keywords=${keywords}`;
         }
 
-        function onClickGoodsCreate() {
+        function onClickUploadGoods() {
             window.location.href = '/goods/create'
         }
     </script>
@@ -160,9 +165,6 @@
 
     <div id="header" style="white-space:nowrap">
         <button id="login-button" onclick="onClickLogin()" type="button">로그인 / 회원가입</button>
-        <p style="text-align: right">
-            <button type="button" class="btn btn-warning" onclick="onClickGoodsCreate()">물품 등록하기</button>
-        </p>
     </div>
 
     <div id="title">

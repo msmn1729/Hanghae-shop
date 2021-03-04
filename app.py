@@ -1,6 +1,9 @@
 from flask import Flask, render_template, jsonify, request, send_file
 from pymongo import MongoClient
 from bson.json_util import dumps
+import datetime
+import hashlib
+import jwt
 from werkzeug.utils import secure_filename
 import hashlib
 import jwt
@@ -17,7 +20,8 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('localhost', 27017)  # 로컬
+# client = MongoClient('mongodb://test:test@localhost', 27017) # 서버 배포할 때 아이디:비밀번호 형식 현재는 둘 다 test
 db = client.hanghaeshop
 
 
@@ -79,7 +83,9 @@ def userLogin():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
         }
 
+        # token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        token = str(token)  # 토큰 형변환(로컬에선 불필요하지만 서버에서는 없으면 오류)
 
         # token을 줍니다.
         return jsonify({'success': True, 'message': '로그인에 성공하였습니다.', TOKEN_NAME: token})
@@ -123,7 +129,9 @@ def goodsSearchPage():
     for string in splitted_keywords:
         search_condition_list.append({"title": {"$regex": ".*" + string + ".*"}})
 
-    searched_goods = list(db.goods.find({"$or": search_condition_list}, {'_id': False}))
+    ## _id로 상품페이지를 구분하도록함
+    # searched_goods = list(db.goods.find({"$or": search_condition_list}, {'_id': False}))
+    searched_goods = list(db.goods.find({"$or": search_condition_list}))
 
     # DEBUG 검색 결과를 확인하는 테스트코드입니다.
     for goods in searched_goods:
@@ -161,6 +169,9 @@ def goods_create():
     title_receive = request.form['title_give']
     price_receive = request.form['price_give']
     desc_receive = request.form['desc_give']
+    now = datetime.datetime.now()
+    print('%02d/%02d/%04d %02d:%02d:%02d' % (now.month, now.day, now.year, now.hour, now.minute, now.second))
+    cur_time = str(now.year) + '/' + str(now.month).zfill(2) + '/' + str(now.day).zfill(2) + ' ' + str(now.hour).zfill(2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
     images_receive = request.form['images_give']
 
     images = ast.literal_eval(images_receive)
@@ -170,12 +181,31 @@ def goods_create():
         'title': title_receive,
         'price': price_receive,
         'desc': desc_receive,
+        'upload_time': cur_time,
         'images': images
+
     }
     db.goods.insert_one(doc);
 
     return jsonify({'result': 'success', 'msg': '글 등록 완료!\n\n메인 페이지로 이동합니다.'})
 
+
+@app.route('/goods/read/<keyword>')
+def goods_info_page(keyword):
+    goods_list = list(db.goods.find({}))
+    upload_time = 'asd'
+    for goods in goods_list:
+        if str(goods['_id']) == keyword:
+            title = goods['title']
+            price = goods['price']
+            desc = goods['desc']
+            print(goods['upload_time'])
+            if goods['upload_time'] != None:
+                upload_time = goods['upload_time']
+
+    # print(upload_time)
+    return render_template('goods_info.html', title=title, price=price,
+                           desc=desc, upload_time=upload_time)
 
 @app.route('/goods/image', methods=['POST'])
 def upload_goods_image():
