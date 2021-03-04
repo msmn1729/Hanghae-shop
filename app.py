@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, send_file
+from flask import Flask, render_template, jsonify, request, send_file, redirect, url_for
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson.objectid import ObjectId
@@ -155,6 +155,13 @@ def goodsSearchPage():
 ## 상품 등록 API
 @app.route('/goods/create', methods=['GET'])
 def goods_create_page():
+    # 글 작성 페이지에 들어가기 전에 클라이언트의 토큰이 유효한지 확인합니다.
+    received_token = request.cookies.get(TOKEN_NAME);
+    check_token_validate_result = tryGetUserInfoWithToken(received_token)
+
+    if check_token_validate_result['success'] is False:
+        return redirect(url_for('userLoginPage'))
+
     return render_template('goods_upload.html')
 
 
