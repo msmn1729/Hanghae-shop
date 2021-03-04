@@ -36,8 +36,8 @@ def tryGetUserInfoWithToken(received_token: str):
 
         id = payload['id']
 
-        userInfo = db.user.find_one({'id': id}, {'_id': 0})
-        return {'success': True, 'message': '사용자 정보를 성공적으로 불러왔습니다.', 'userInfo': userInfo}
+        user_info = db.user.find_one({'id': id}, {'_id': 0})
+        return {'success': True, 'message': '사용자 정보를 성공적으로 불러왔습니다.', 'user_info': user_info}
 
     # 토큰 유효기간 만료
     except jwt.ExpiredSignatureError:
@@ -146,6 +146,18 @@ def goods_create_page():
 
 @app.route('/goods/create', methods=['POST'])
 def goods_create():
+    # 글 업로드 직전에 클라이언트의 토큰이 유효한지 확인합니다.
+    received_token = request.cookies.get(TOKEN_NAME);
+    check_token_validate_result = tryGetUserInfoWithToken(received_token)
+
+    print(check_token_validate_result)
+
+    if check_token_validate_result['success'] is False:
+        return jsonify({'result': 'fail', 'msg': '올바른 토큰이 아닙니다. 다시 로그인하여 토큰을 재발급 받아주세요.'})
+
+    # 클라이언트로부터 전달받은 값들로 판매글을 db에 등록합니다.
+    user_id = check_token_validate_result['user_info']['id']
+
     title_receive = request.form['title_give']
     price_receive = request.form['price_give']
     desc_receive = request.form['desc_give']
