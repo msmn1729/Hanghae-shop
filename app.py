@@ -163,11 +163,9 @@ def goods_create():
 def upload_goods_image():
     received_file = request.files['file_give']
 
-    print(received_file)
-
     # check if the post request has the file part
     if received_file is None:
-        return jsonify({"success": False, "message": "올바른 토큰이 아닙니다. 다시 로그인하여 토큰을 재발급받으세요."})
+        return jsonify({"success": False, "message": "올바른 파일이 아닙니다."})
 
     # if user does not select file, browser also
     # submit a empty part without filename
