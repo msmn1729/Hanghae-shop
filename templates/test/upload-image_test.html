@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function update_profile() {
+            let file = $('#input-pic')[0].files[0]
+            let form_data = new FormData()
+            form_data.append("file_give", file)
+            console.log(file, form_data)
+
+            $.ajax({
+                type: "POST",
+                url: "/goods/image",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+
+                    let message = response['message'];
+                    console.log(message);
+
+                    if (response['success']) {
+                        console.log(response['image']);
+
+                        window.location.href = response['image'];
+                    }
+
+                }
+            });
+        }
+
+        function onClickUpload() {
+            update_profile();
+        }
+
+        function onClickShowImage() {
+            let image = $('#target-image').val();
+            image = '/goods/image/' + image;
+
+            $('#downloaded-image').prop("src", image);
+
+        }
+    </script>
+
+</head>
+<body>
+
+<input id="input-pic" class="file-input" type="file" name="resume">
+<button onclick="onClickUpload()">업로드하기</button>
+
+<input id="target-image" type="text">
+<button onclick="onClickShowImage()">이미지 불러오기</button>
+<img id="downloaded-image" src="" alt="">
+
+</body>
+</html>
