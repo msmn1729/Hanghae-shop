@@ -1,18 +1,36 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_file
 from pymongo import MongoClient
 from bson.json_util import dumps
+<<<<<<< HEAD
 import datetime
 import hashlib
 import jwt
+=======
+from werkzeug.utils import secure_filename
+import hashlib
+import jwt
+import datetime
+import os
+import ast
+>>>>>>> kangsangyeon
 
 SECRET_KEY = 'Pl^EqCCvnI(d3xDBFofHyxHxLtuBWs';
 TOKEN_NAME = 'login_token';
 
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 client = MongoClient('localhost', 27017)  # 로컬
 # client = MongoClient('mongodb://test:test@localhost', 27017) # 서버 배포할 때 아이디:비밀번호 형식 현재는 둘 다 test
 db = client.hanghaeshop
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def tryGetUserInfoWithToken(received_token: str):
@@ -25,8 +43,8 @@ def tryGetUserInfoWithToken(received_token: str):
 
         id = payload['id']
 
-        userInfo = db.user.find_one({'id': id}, {'_id': 0})
-        return {'success': True, 'message': '사용자 정보를 성공적으로 불러왔습니다.', 'userInfo': userInfo}
+        user_info = db.user.find_one({'id': id}, {'_id': 0})
+        return {'success': True, 'message': '사용자 정보를 성공적으로 불러왔습니다.', 'user_info': user_info}
 
     # 토큰 유효기간 만료
     except jwt.ExpiredSignatureError:
@@ -139,24 +157,48 @@ def goods_create_page():
 
 @app.route('/goods/create', methods=['POST'])
 def goods_create():
+    # 글 업로드 직전에 클라이언트의 토큰이 유효한지 확인합니다.
+    received_token = request.cookies.get(TOKEN_NAME);
+    check_token_validate_result = tryGetUserInfoWithToken(received_token)
+
+    print(check_token_validate_result)
+
+    if check_token_validate_result['success'] is False:
+        return jsonify({'result': 'fail', 'msg': '올바른 토큰이 아닙니다. 다시 로그인하여 토큰을 재발급 받아주세요.'})
+
+    # 클라이언트로부터 전달받은 값들로 판매글을 db에 등록합니다.
+    user_id = check_token_validate_result['user_info']['id']
+
     title_receive = request.form['title_give']
     price_receive = request.form['price_give']
     desc_receive = request.form['desc_give']
+<<<<<<< HEAD
     now = datetime.datetime.now()
     print('%02d/%02d/%04d %02d:%02d:%02d' % (now.month, now.day, now.year, now.hour, now.minute, now.second))
     cur_time = str(now.year) + '/' + str(now.month).zfill(2) + '/' + str(now.day).zfill(2) + ' ' + str(now.hour).zfill(2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
+=======
+    images_receive = request.form['images_give']
+
+    images = ast.literal_eval(images_receive)
+>>>>>>> kangsangyeon
 
     doc = {
+        'seller_id': user_id,
         'title': title_receive,
         'price': price_receive,
         'desc': desc_receive,
+<<<<<<< HEAD
         'upload_time': cur_time
+=======
+        'images': images
+>>>>>>> kangsangyeon
     }
     db.goods.insert_one(doc);
 
     return jsonify({'result': 'success', 'msg': '글 등록 완료!\n\n메인 페이지로 이동합니다.'})
 
 
+<<<<<<< HEAD
 @app.route('/goods/read/<keyword>')
 def goods_info_page(keyword):
     goods_list = list(db.goods.find({}))
@@ -173,6 +215,79 @@ def goods_info_page(keyword):
     # print(upload_time)
     return render_template('goods_info.html', title=title, price=price,
                            desc=desc, upload_time=upload_time)
+
+=======
+@app.route('/goods/image', methods=['POST'])
+def upload_goods_image():
+    received_file = request.files['file_give']
+
+    # check if the post request has the file part
+    if received_file is None:
+        return jsonify({"success": False, "message": "올바른 파일이 아닙니다."})
+
+    # if user does not select file, browser also
+    # submit a empty part without filename
+    if received_file.filename == '':
+        return jsonify({"success": False, "message": "올바른 사진을 업로드해주세요."})
+
+    if allowed_file(received_file.filename) is False:
+        return jsonify({"success": False, "message": "허용되는 포맷의 이미지가 아닙니다."})
+
+    filename_splitted = received_file.filename.rsplit('.', 1)
+
+    if len(filename_splitted) != 2:
+        return jsonify({"success": False, "message": "올바른 확장자의 파일을 업로드해주세요."})
+
+    # 이미지 파일명을 이미지 파일의 ID로 설정합니다.
+    # 이미지 ID는 이미지 파일명의 해싱값 + 이미지 파일의 본래 확장자로 구성됩니다.
+    # ex: molang.jpg -> de182d2f2eaade8a79ed66f4f0756aee80c7b1e82783fd149bee8ce8bb34ab88.jpg
+    file_name = hashlib.sha256(filename_splitted[0].encode('utf-8')).hexdigest()
+    file_extension = filename_splitted[1]
+    image_id = file_name + '.' + file_extension
+
+    file_savepath = os.path.join(app.config['UPLOAD_FOLDER'], image_id)
+
+    # 사용자는 '\goods\image\\'에 image_id를 붙인 주소로 해당 이미지에 접근할 수 있습니다.
+    image_path = '\\goods\\image\\' + image_id
+
+    print(file_savepath, image_path)
+
+    received_file.save(file_savepath)
+
+    return jsonify({"success": True, "message": "사진을 정상적으로 업로드하였습니다.", "image": image_path})
+
+
+@app.route('/goods/image/<image_id>', methods=['GET'])
+def get_goods_image(image_id):
+    image_local_path = os.path.join(app.config['UPLOAD_FOLDER'], image_id)
+    if not os.path.exists(image_local_path):
+        return jsonify({"success": False, "message": "올바른 이미지 ID가 아닙니다."})
+
+    return send_file(image_local_path, mimetype="image")
+
+
+## 상품 상세페이지 API
+@app.route('/goods/read', methods=['GET'])
+def goods_read_page():
+    return render_template('goods_info.html')
+>>>>>>> kangsangyeon
+
+
+####################################################
+####################################################
+####################################################
+
+
+# ████████╗███████╗███████╗████████╗     ██████╗ ██████╗ ██████╗ ███████╗
+# ╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+#    ██║   █████╗  ███████╗   ██║       ██║     ██║   ██║██║  ██║█████╗
+#    ██║   ██╔══╝  ╚════██║   ██║       ██║     ██║   ██║██║  ██║██╔══╝
+#    ██║   ███████╗███████║   ██║       ╚██████╗╚██████╔╝██████╔╝███████╗
+#    ╚═╝   ╚══════╝╚══════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
+
+@app.route('/test/goods', methods=['GET'])
+def test_goods():
+    return render_template('test/upload-image_test.html')
 
 
 ####################################################
