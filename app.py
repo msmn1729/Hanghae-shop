@@ -1,18 +1,15 @@
 from flask import Flask, render_template, jsonify, request, send_file
 from pymongo import MongoClient
 from bson.json_util import dumps
-<<<<<<< HEAD
 import datetime
 import hashlib
 import jwt
-=======
 from werkzeug.utils import secure_filename
 import hashlib
 import jwt
 import datetime
 import os
 import ast
->>>>>>> kangsangyeon
 
 SECRET_KEY = 'Pl^EqCCvnI(d3xDBFofHyxHxLtuBWs';
 TOKEN_NAME = 'login_token';
@@ -172,33 +169,27 @@ def goods_create():
     title_receive = request.form['title_give']
     price_receive = request.form['price_give']
     desc_receive = request.form['desc_give']
-<<<<<<< HEAD
     now = datetime.datetime.now()
     print('%02d/%02d/%04d %02d:%02d:%02d' % (now.month, now.day, now.year, now.hour, now.minute, now.second))
     cur_time = str(now.year) + '/' + str(now.month).zfill(2) + '/' + str(now.day).zfill(2) + ' ' + str(now.hour).zfill(2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
-=======
     images_receive = request.form['images_give']
 
     images = ast.literal_eval(images_receive)
->>>>>>> kangsangyeon
 
     doc = {
         'seller_id': user_id,
         'title': title_receive,
         'price': price_receive,
         'desc': desc_receive,
-<<<<<<< HEAD
-        'upload_time': cur_time
-=======
+        'upload_time': cur_time,
         'images': images
->>>>>>> kangsangyeon
+
     }
     db.goods.insert_one(doc);
 
     return jsonify({'result': 'success', 'msg': '글 등록 완료!\n\n메인 페이지로 이동합니다.'})
 
 
-<<<<<<< HEAD
 @app.route('/goods/read/<keyword>')
 def goods_info_page(keyword):
     goods_list = list(db.goods.find({}))
@@ -216,7 +207,6 @@ def goods_info_page(keyword):
     return render_template('goods_info.html', title=title, price=price,
                            desc=desc, upload_time=upload_time)
 
-=======
 @app.route('/goods/image', methods=['POST'])
 def upload_goods_image():
     received_file = request.files['file_give']
@@ -270,7 +260,6 @@ def get_goods_image(image_id):
 @app.route('/goods/read', methods=['GET'])
 def goods_read_page():
     return render_template('goods_info.html')
->>>>>>> kangsangyeon
 
 
 ####################################################
