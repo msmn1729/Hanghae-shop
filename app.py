@@ -120,6 +120,40 @@ def goodsSearchPage():
     return render_template('goods.html', keywords=received_keywords,
                            searched_goods=dumps(searched_goods, ensure_ascii=False))
 
+####################################################
+####################################################
+####################################################
+
+
+## 상품 등록 API
+@app.route('/goods/create', methods=['GET'])
+def goods_create_page():
+    return render_template('goods_upload.html')
+
+@app.route('/goods/create', methods=['POST'])
+def goods_create():
+    title_receive = request.form['title_give']
+    price_receive = request.form['price_give']
+    desc_receive = request.form['desc_give']
+
+    doc = {
+        'title': title_receive,
+        'price': price_receive,
+        'desc': desc_receive
+    }
+    db.goods.insert_one(doc);
+
+    return jsonify({'result': 'success', 'msg': '글 등록 완료!\n\n메인 페이지로 이동합니다.'})
+
+
+## 상품 상세페이지 API
+@app.route('/goods/read', methods=['GET'])
+def goods_read_page():
+    return render_template('goods_info.html')
+
+####################################################
+####################################################
+####################################################
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

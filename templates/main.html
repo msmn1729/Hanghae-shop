@@ -6,7 +6,9 @@
 
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
     <style>
@@ -148,17 +150,19 @@
             window.location.href = `/goods/search?keywords=${keywords}`;
         }
 
-        function onClickUploadGoods()
-        {
-            console.log('hello');
+        function onClickGoodsCreate() {
+            window.location.href = '/goods/create'
         }
     </script>
 </head>
 <body>
 <div class="wrap">
 
-    <div id="header">
+    <div id="header" style="white-space:nowrap">
         <button id="login-button" onclick="onClickLogin()" type="button">로그인 / 회원가입</button>
+        <p style="text-align: right">
+            <button type="button" class="btn btn-warning" onclick="onClickGoodsCreate()">물품 등록하기</button>
+        </p>
     </div>
 
     <div id="title">
