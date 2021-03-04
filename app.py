@@ -53,14 +53,16 @@ def tryGetUserInfoWithToken(received_token: str):
 
 @app.route('/', methods=['GET'])
 def home():
-    received_token = request.cookies.get(TOKEN_NAME);
+    received_token = request.cookies.get(TOKEN_NAME)
     check_token_validate_result = tryGetUserInfoWithToken(received_token)
 
     isLogin = 0
     if check_token_validate_result['success']:
         isLogin = 1
 
-    return render_template('main.html', isLogin=isLogin)
+    latest_goods = db.goods.find().sort([('upload_time', -1)]).limit(12)
+
+    return render_template('main.html', isLogin=isLogin, latest_goods=dumps(latest_goods, ensure_ascii=False))
 
 
 @app.route('/user/login', methods=['GET'])
