@@ -100,6 +100,9 @@
         }
 
         #search-box > input {
+
+            font-size: var(--text-small);
+
             /* Tell the input to use all the available space */
             flex-grow: 2;
             /* And hide the input's outline, so the form looks like the outline */
@@ -221,7 +224,7 @@
         <h1>{{ keywords }}</h1>
         <h2> 로 찾은 물건들이예요</h2>
     </div>
-    
+
     <div id="search-box">
         <input id="search-keyword" placeholder="검색어를 입력하세요." value="{{ keywords }}">
         <button id="search-button" class="fa fa-search" onclick="onClickSearch()" type="button"></button>
