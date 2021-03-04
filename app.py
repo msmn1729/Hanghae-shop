@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request, send_file
 from pymongo import MongoClient
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 import datetime
 import hashlib
 import jwt
@@ -193,7 +194,7 @@ def goods_create():
 
 @app.route('/goods/read/<goods_id>')
 def goods_info_page(goods_id):
-    goods = db.goods.find_one({'_id': goods_id})
+    goods = db.goods.find_one({'_id': ObjectId(goods_id)})
 
     if goods is None:
         return jsonify({'result': 'fail', 'msg': '해당하는 ID의 물품이 없습니다.'})
@@ -202,13 +203,14 @@ def goods_info_page(goods_id):
     title = goods['title']
     price = goods['price']
     desc = goods['desc']
+    images = goods['images']
 
     if goods['upload_time'] != None:
         upload_time = goods['upload_time']
 
     # print(upload_time)
     return render_template('goods_info.html', title=title, price=price,
-                           desc=desc, upload_time=upload_time)
+                           desc=desc, upload_time=upload_time, images=images)
 
 
 @app.route('/goods/image', methods=['POST'])
