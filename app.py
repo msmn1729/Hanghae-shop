@@ -182,11 +182,8 @@ def goods_create():
     title_receive = request.form['title_give']
     price_receive = request.form['price_give']
     desc_receive = request.form['desc_give']
-    now = datetime.datetime.now()
-    print('%02d/%02d/%04d %02d:%02d:%02d' % (now.month, now.day, now.year, now.hour, now.minute, now.second))
-    cur_time = str(now.year) + '/' + str(now.month).zfill(2) + '/' + str(now.day).zfill(2) + ' ' + str(now.hour).zfill(
-        2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
     images_receive = request.form['images_give']
+    upload_time = datetime.datetime.now()
 
     images = ast.literal_eval(images_receive)
 
@@ -195,7 +192,7 @@ def goods_create():
         'title': title_receive,
         'price': price_receive,
         'desc': desc_receive,
-        'upload_time': cur_time,
+        'upload_time': upload_time,
         'images': images
 
     }
