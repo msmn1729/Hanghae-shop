@@ -84,106 +84,6 @@
             color: var(--black-normal);
         }
 
-        #shop-toggle-box {
-            margin-top: 10px;
-
-            text-align: left;
-        }
-
-        /* checkbox hover, active background */
-        /* https://stackoverflow.com/questions/30100978/how-to-make-a-check-button-hidden-checkbox-with-label-as-a-button-css-only */
-        /* Basic Style */
-        input.checkbox-button {
-            display: none;
-        }
-
-        input.checkbox-button + label {
-            padding: 3px 3px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
-
-        /* 전체 선택 */
-        #shop-toggle-all:not(:checked) + label {
-            border: var(--color-signature) 1px solid;
-            background-color: transparent;
-            color: var(--color-signature);
-        }
-
-        #shop-toggle-all:not(:checked) + label:hover {
-            border: transparent 1px solid;
-            background-color: var(--color-signature);
-            color: white;
-        }
-
-        #shop-toggle-all + label:active,
-        #shop-toggle-all:checked + label {
-            border: transparent 1px solid;
-            background-color: var(--color-signature);
-            color: white;
-        }
-
-        /* 당근마켓 */
-        #shop-toggle-carrot-market:not(:checked) + label {
-            border: var(--color-carrot-market) 1px solid;
-            background-color: transparent;
-            color: var(--color-carrot-market);
-        }
-
-        #shop-toggle-carrot-market:not(:checked) + label:hover {
-            border: transparent 1px solid;
-            background-color: var(--color-carrot-market);
-            color: white;
-        }
-
-        #shop-toggle-carrot-market + label:active,
-        #shop-toggle-carrot-market:checked + label {
-            border: transparent 1px solid;
-            background-color: var(--color-carrot-market);
-            color: white;
-        }
-
-        /* 중고나라 */
-        #shop-toggle-joonggonara:not(:checked) + label {
-            border: var(--color-joonggonara) 1px solid;
-            background-color: transparent;
-            color: var(--color-joonggonara);
-        }
-
-        #shop-toggle-joonggonara:not(:checked) + label:hover {
-            border: transparent 1px solid;
-            background-color: var(--color-joonggonara);
-            color: white;
-        }
-
-        #shop-toggle-joonggonara + label:active,
-        #shop-toggle-joonggonara:checked + label {
-            border: transparent 1px solid;
-            background-color: var(--color-joonggonara);
-            color: white;
-        }
-
-        /* 헬로 마켓 */
-        #shop-toggle-hello-market:not(:checked) + label {
-            border: var(--color-hello-market) 1px solid;
-            background-color: transparent;
-            color: var(--color-hello-market);
-        }
-
-        #shop-toggle-hello-market:not(:checked) + label:hover {
-            border: transparent 1px solid;
-            background-color: var(--color-hello-market);
-            color: white;
-        }
-
-        #shop-toggle-hello-market + label:active,
-        #shop-toggle-hello-market:checked + label {
-            border: transparent 1px solid;
-            background-color: var(--color-hello-market);
-            color: white;
-        }
-
         /* Search box */
         /* https://stackoverflow.com/questions/15314407/how-to-add-button-inside-input */
         #search-box {
@@ -317,27 +217,7 @@
         <h1>{{ keywords }}</h1>
         <h2> 로 찾은 물건들이예요</h2>
     </div>
-
-    <!-- 샵 토글 -->
-    <div id="shop-toggle-box">
-        <span>
-            <input type="checkbox" id='shop-toggle-all' class='checkbox-button'/>
-            <label for='shop-toggle-all'>모두 선택</label>
-        </span>
-        <span>
-            <input type="checkbox" id="shop-toggle-carrot-market" class='checkbox-button'/>
-            <label for='shop-toggle-carrot-market'>당근마켓</label>
-        </span>
-        <span>
-            <input type="checkbox" id="shop-toggle-joonggonara" class='checkbox-button'/>
-            <label for='shop-toggle-joonggonara'>중고나라</label>
-        </span>
-        <span>
-            <input type="checkbox" id="shop-toggle-hello-market" class='checkbox-button'/>
-            <label for='shop-toggle-hello-market'>헬로마켓</label>
-        </span>
-
-    </div>
+    
     <div id="search-box">
         <input id="search-keyword" placeholder="검색어를 입력하세요." value="{{ keywords }}">
         <button id="search-button" class="fa fa-search" onclick="onClickSearch()" type="button"></button>
