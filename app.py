@@ -18,7 +18,7 @@ TOKEN_NAME = 'login_token';
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='templates')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # client = MongoClient('localhost', 27017)  # 로컬
