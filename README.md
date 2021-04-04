@@ -6,8 +6,6 @@
 ![imge](https://img.shields.io/badge/Language-Python-blue)
 ![imge](https://img.shields.io/badge/Tools-PyCharm-green)
 
-- [홈페이지](http://msmn.shop)
-- [ip주소](http://52.79.239.230)
 - [시연 동영상(youtube)](https://youtu.be/tqdnrKFCDc0)
 
 ------
